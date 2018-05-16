@@ -1,9 +1,14 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
-  def index
+   def index
     @tasks = Task.all
-  end
+     if logged_in?
+      @user = current_user
+      @micropost = current_user.microposts.build  # form_for 用
+      @microposts = current_user.microposts.order('created_at DESC').page(params[:page])
+     end
+   end
 
   def show
   end
@@ -57,5 +62,6 @@ class TasksController < ApplicationController
   def task_params
     params.require(:task).permit(:content,:status)
   end
+  
 end
 

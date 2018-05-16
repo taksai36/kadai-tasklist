@@ -39,5 +39,26 @@
   </div>
 <% end %>
 
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-md-4">
+      <%= form_for(@micropost) do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, class: 'form-control', rows: 5 %>
+        </div>
+        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
+      <% end %>
+    </aside>
+    <div class="col-xs-8">
+      <%= render 'microposts/microposts', microposts: @microposts %>
+    </div>
+  </div>
+<% else %>
 
+ <div class="text-center">
+   
 <%= link_to '新規タスクの投稿', new_task_path, class: "btn btn-primary" %>
+<%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+  </div>
+  
+<% end %>  
