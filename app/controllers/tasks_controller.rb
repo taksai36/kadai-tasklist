@@ -3,11 +3,11 @@ class TasksController < ApplicationController
    before_action :require_user_logged_in, only: [:index,:new,:show, :edit, :update, :destroy]
   
    def index
-    @tasks = Task.all
      if logged_in?
       @user = current_user
       @micropost = current_user.microposts.build  # form_for 用
       @microposts = current_user.microposts.order('created_at DESC').page(params[:page])
+      @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
      end
    end
 
@@ -16,10 +16,12 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    @task = current_user.tasks.build 
   end
 
   def create
     @task =Task.new(task_params)
+    @task = current_user.tasks.build(task_params) 
     
     if @task.save
       flash[:success] = 'Taskが正常に投稿されました'
