@@ -1,12 +1,12 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-   before_action :require_user_logged_in, only: [:index,:new,:show, :edit, :update, :destroy]
+   before_action :require_user_logged_in, only: [:index,:new,:show, :create,:edit, :update, :destroy]
+    before_action :correct_user, only: [:index,:new,:show, :create,:edit, :update, :destroy]
+
   
    def index
      if logged_in?
       @user = current_user
-      @micropost = current_user.microposts.build  # form_for 用
-      @microposts = current_user.microposts.order('created_at DESC').page(params[:page])
       @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
      end
    end
